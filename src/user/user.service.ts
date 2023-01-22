@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Observable } from 'rxjs';
 import { Repository } from 'typeorm';
+import { PrimaryGeneratedColumnIdentityOptions } from 'typeorm/decorator/options/PrimaryGeneratedColumnIdentityOptions';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
@@ -19,11 +21,13 @@ export class UserService {
   }
 
   findAll() {
-    return `This action returns all user`;
+    return this.repository.find();
+    //return `This action returns all user`;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.repository.findOneBy({id});
+    //return `This action returns a #${id} User`;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
@@ -32,7 +36,8 @@ export class UserService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.repository.delete({id});
+    //return `This action removes a #${id} user`;
   }
 
   remove_ip(ip: string) {

@@ -10,7 +10,7 @@ export class AppController {
     return this.appService.getHello();  // по основному пути запускается этот метод из модуля appService
   }
 
-  @Get('/user/:id')  
+   @Get('/user/app/:id')  
   getUser(@Param('id') id: string): string {  
     return this.appService.getUser(+id);  
   }

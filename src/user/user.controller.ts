@@ -9,9 +9,6 @@ export class UserController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    //return this.userService.create(createUserDto);
-   //const user_insert = this.crudUserService.create(createCrudUserDto)
-    //return user_insert;
     return this.userService.create(createUserDto);
   }
 
