@@ -4,11 +4,16 @@ import { dataSourceOptions } from 'db/data-source';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-
-//import { UserEntity } from './user/entities/user.entity';
+import { SourceModule } from './source/source.module';
+//* import { UserEntity } from './user/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceOptions), /*AppModule*/ UserModule],
+    
+  imports: [
+    TypeOrmModule.forRoot(dataSourceOptions),
+     UserModule,
+     SourceModule,
+    ],
   controllers: [AppController],
   providers: [AppService],
 })

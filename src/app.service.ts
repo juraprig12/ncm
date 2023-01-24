@@ -10,4 +10,5 @@ export class AppService {
   getUser(id: number): string {
     return `Сработало из app.controller. User ID: ${id}`;
   }
+    
 }
