@@ -2,12 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-const crypto = require('crypto')
+import { encryptPassword } from '../app.module';
 
-const encryptPassword = (stroka: string) => {
-  stroka = crypto.createHash('sha256', process.env.SECRET_KEY).update(stroka).digest('hex');
-  return stroka;
-}
 
 @Controller('user')
 export class UserController {
