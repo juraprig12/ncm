@@ -5,4 +5,5 @@ export class UpdateSourceDto extends PartialType(CreateSourceDto) {
     comment?: string;
     date?: string;
     link?: string;
+    usersId: number;
 }

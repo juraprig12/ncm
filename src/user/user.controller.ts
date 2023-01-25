@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+const crypto = require('crypto')
 
 @Controller('user')
 export class UserController {
@@ -9,6 +10,10 @@ export class UserController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
+    //const hash = crypto.createHash('sha256')
+    //const finalHex = hash.update(createUserDto.password).digest('hex')
+    //console.log(finalHex)
+    createUserDto.password = crypto.createHash('sha256', 'secretkey').update(createUserDto.password).digest('hex')
     return this.userService.create(createUserDto);
   }
 

@@ -7,7 +7,7 @@ export class SourceEntity {
     @Column() comment: string;
     @Column() date: string;
     @Column() link: string;
-    //@Column() user_id: number;
+    @Column() usersId: number;
     @ManyToOne(() => UserEntity, (users: UserEntity) => users.id, {
      onUpdate: 'CASCADE',
      onDelete: 'CASCADE',

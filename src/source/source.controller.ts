@@ -8,8 +8,8 @@ export class SourceController {
   constructor(private readonly sourceService: SourceService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateSourceDto) {
-    return this.sourceService.create(createUserDto);
+  create(@Body() createSourceDto: CreateSourceDto) {
+    return this.sourceService.create(createSourceDto);
   }
 
   @Get()
@@ -23,8 +23,8 @@ export class SourceController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateSourceDto) {
-    return this.sourceService.update(+id, updateUserDto);
+  update(@Param('id') id: string, @Body() UpdateSourceDto: UpdateSourceDto) {
+    return this.sourceService.update(+id, UpdateSourceDto);
   }
 
   @Delete(':id')
