@@ -4,16 +4,18 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 const crypto = require('crypto')
 
+const encryptPassword = (stroka: string) => {
+  stroka = crypto.createHash('sha256', process.env.SECRET_KEY).update(stroka).digest('hex');
+  return stroka;
+}
+
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    //const hash = crypto.createHash('sha256')
-    //const finalHex = hash.update(createUserDto.password).digest('hex')
-    //console.log(finalHex)
-    createUserDto.password = crypto.createHash('sha256', 'secretkey').update(createUserDto.password).digest('hex')
+    createUserDto.password = encryptPassword(createUserDto.password);
     return this.userService.create(createUserDto);
   }
 

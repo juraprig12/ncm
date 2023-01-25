@@ -5,16 +5,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { SourceModule } from './source/source.module';
-//* import { UserEntity } from './user/entities/user.entity';
 
 @Module({
-    
   imports: [
     TypeOrmModule.forRoot(dataSourceOptions),
      UserModule,
-     SourceModule,
+     SourceModule
     ],
   controllers: [AppController],
   providers: [AppService],
-})
+}) 
 export class AppModule {}
