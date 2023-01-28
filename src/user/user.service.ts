@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Observable } from 'rxjs';
 import { Repository } from 'typeorm';
-import { PrimaryGeneratedColumnIdentityOptions } from 'typeorm/decorator/options/PrimaryGeneratedColumnIdentityOptions';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
@@ -15,6 +13,13 @@ export class UserService {
     private repository: Repository<UserEntity>, // вот здесь определяется, что сущность CrudUserEntity будет ОСНОВНОЙ
     ) {}
 
+  async getUserByEmail(email: string) {
+    const user = await this.repository.findOne({ where: {email} /*, include: {all: true}*/ })
+    return user;
+    //return this.repository.findOneBy({email});
+    //return `This action returns a #${id} User`;
+  }
+
   create(createUserDto: CreateUserDto) {
     return this.repository.save(createUserDto);
     //return 'This action adds a new user';
@@ -25,8 +30,13 @@ export class UserService {
     //return `This action returns all user`;
   }
 
-  findOne(id: number) {
+  findOne_id(id: number) {
     return this.repository.findOneBy({id});
+    //return `This action returns a #${id} User`;
+  }
+
+  findOne_email(email: string) {
+    return this.repository.findOneBy({email});
     //return `This action returns a #${id} User`;
   }
 
