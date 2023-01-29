@@ -16,9 +16,9 @@ export const encryptPassword = (stroka: string) => {
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataSourceOptions),
-     UserModule,
-     SourceModule,
-     AuthModule
+    UserModule,
+    SourceModule,
+    AuthModule
     ],
   controllers: [AppController],
   providers: [AppService],
