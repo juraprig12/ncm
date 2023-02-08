@@ -4,7 +4,7 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { encryptPassword } from '../app.module';
-const crypto = require('crypto')
+//const crypto = require('crypto')
 
 
 @Injectable()
