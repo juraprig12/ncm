@@ -726,10 +726,10 @@
     "multer" "1.4.4-lts.1"
     "tslib" "2.4.1"
 
-"@nestjs/platform-socket.io@^9.3.6":
-  "integrity" "sha512-BOstRZklnlSlg7DtFVfuzkrLSqgwsLJYyGWYVFqXZKqQMDMPcMSF0P6jgIzD9ApLf8YXPG/1ErezzsS5XjeRYA=="
-  "resolved" "https://registry.npmjs.org/@nestjs/platform-socket.io/-/platform-socket.io-9.3.6.tgz"
-  "version" "9.3.6"
+"@nestjs/platform-socket.io@^9.3.7":
+  "integrity" "sha512-U0gycbn9md5b2k/AYYmbw2wMegjTD+OsAGUtzFu80408nz4ooI7fWDVMwwfrt8hp1kp9QlGHntmSJDlCc+ZjpA=="
+  "resolved" "https://registry.npmjs.org/@nestjs/platform-socket.io/-/platform-socket.io-9.3.7.tgz"
+  "version" "9.3.7"
   dependencies:
     "socket.io" "4.6.0"
     "tslib" "2.5.0"
@@ -770,10 +770,10 @@
   dependencies:
     "uuid" "8.3.2"
 
-"@nestjs/websockets@^9.3.6":
-  "integrity" "sha512-4AoSFMlHv/boWvGIlkPSC4zU80hD49Lsz9qcLqpeYoEI0jiCBrkZ0tVANx3asUG8+KrzzEIDOAXzRNom/zjWPg=="
-  "resolved" "https://registry.npmjs.org/@nestjs/websockets/-/websockets-9.3.6.tgz"
-  "version" "9.3.6"
+"@nestjs/websockets@^9.3.7":
+  "integrity" "sha512-ycym35WkxzSAaEluzsMkJ2PmRIa5o1/ahOH3PWYP1o+NV18N/ccdDOT62CQlUykmowR2aYfQucB7c4nHaxExog=="
+  "resolved" "https://registry.npmjs.org/@nestjs/websockets/-/websockets-9.3.7.tgz"
+  "version" "9.3.7"
   dependencies:
     "iterare" "1.2.1"
     "object-hash" "3.0.0"

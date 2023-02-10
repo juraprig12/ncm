@@ -6,7 +6,9 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { SourceModule } from './source/source.module';
 import { AuthModule } from './auth/auth.module';
+import { MessagesModule } from './messages/messages.module';
 const crypto = require('crypto')
+//import { MessagesGateway } from './messages/messages.gateway';
 
 export const encryptPassword = (stroka: string) => {
   stroka = crypto.createHash('sha256', process.env.SECRET_KEY).update(stroka).digest('hex');
@@ -19,6 +21,7 @@ export const encryptPassword = (stroka: string) => {
     UserModule,
     SourceModule,
     AuthModule,
+    MessagesModule,
     ],
   controllers: [AppController],
   providers: [AppService],
