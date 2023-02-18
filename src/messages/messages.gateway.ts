@@ -4,12 +4,14 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import {Server, Socket} from 'socket.io';
 import { OnModuleInit } from '@nestjs/common';            // YMP
 
-@WebSocketGateway(/*3001,*/{ 
-  cors: { 
-    //origin: ['http://localhost:3000'],        // YMP
-    origin: '*', 
-  }
-})   // YMP
+@WebSocketGateway(
+//   /*3001,*/{ 
+//   cors: { 
+//     origin: ['http://localhost:3000'],        // YMP
+//     //origin: '*', 
+//   }
+// }
+{ transports: ['websocket'] })   // YMP
 
 
 export class MessagesGateway /*implements OnModuleInit*/ {       //  YMP
@@ -24,6 +26,12 @@ export class MessagesGateway /*implements OnModuleInit*/ {       //  YMP
   // }                                                         // YMP
 
   constructor(private readonly messagesService: MessagesService) {}
+
+  @SubscribeMessage('events')
+  handleEvent(@MessageBody('id') id: number): number {
+    // id === messageBody.id
+    return id;
+  }
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto) {
