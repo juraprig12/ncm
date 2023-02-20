@@ -5,25 +5,26 @@ import {Server, Socket} from 'socket.io';
 import { OnModuleInit } from '@nestjs/common';            // YMP
 
 @WebSocketGateway(
-//   /*3001,*/{ 
-//   cors: { 
-//     origin: ['http://localhost:3000'],        // YMP
-//     //origin: '*', 
-//   }
-// }
-{ transports: ['websocket'] })   // YMP
+  /*3001,*/{ 
+  cors: { 
+    origin: ['http://localhost:3000'],        // YMP
+    //origin: '*', 
+    //transports: ['websocket']
+  },
+})
+//{ transports: ['websocket'] })   // YMP
 
 
-export class MessagesGateway /*implements OnModuleInit*/ {       //  YMP
+export class MessagesGateway implements OnModuleInit {       //  YMP
   @WebSocketServer()
   server: Server;
 
-  // onModuleInit() {                                         // YMP
-  //   this.server.on('connection', (socket) => {              // YMP
-  //     console.log(socket.id);                             // YMP
-  //     console.log('Connected');                            // YMP
-  //   });                                                   // YMP
-  // }                                                         // YMP
+  onModuleInit() {                                         // YMP
+    this.server.on('connection', (socket) => {              // YMP
+      console.log(socket.id);                             // YMP
+      console.log('Connected');                            // YMP
+    });                                                   // YMP
+  }                                                         // YMP
 
   constructor(private readonly messagesService: MessagesService) {}
 
