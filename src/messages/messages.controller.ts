@@ -3,6 +3,8 @@ import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import {Server, Socket} from 'socket.io';
 import { Controller, OnModuleInit } from '@nestjs/common';            // YMP
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { AuthService } from 'src/auth/auth.service';
 
 @WebSocketGateway(
   /*3001,*/{ 
@@ -17,7 +19,10 @@ import { Controller, OnModuleInit } from '@nestjs/common';            // YMP
 @Controller('')
 export class MessagesController implements OnModuleInit {       //  YMP
 
-  constructor(private readonly messagesService: MessagesService) {}
+  constructor(
+    private readonly messagesService: MessagesService,
+    private authService: AuthService
+            ) {}
 
   @WebSocketServer()
   server: Server;
@@ -28,9 +33,19 @@ export class MessagesController implements OnModuleInit {       //  YMP
       //console.log(socket.id);
       socket.data = {password: "секретный и лысый", email: "непейлысый@gmail.com"};                             // YMP
       console.log(`Connected, id socket = "${socket.id}"`);                            // YMP
-      console.log(`socket.data = "${socket.data}"`);                            // YMP
+      //console.log(`socket.data = "${socket.data}"`);                            // YMP
     });                                                   // YMP
   }                                                         // YMP
+
+  @SubscribeMessage('authMessage')
+  async auth(@MessageBody() createMessageDto: CreateUserDto) {
+
+    const tokenClientSocket = (await this.authService.login(createMessageDto)).token;
+    console.log(tokenClientSocket);
+    this.server.emit('authMessage', tokenClientSocket);
+    return tokenClientSocket;
+    //this.server.emit('message', message);
+  }
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto) {
@@ -59,7 +74,7 @@ export class MessagesController implements OnModuleInit {       //  YMP
     @MessageBody('name') name: string, 
     //@MessageBody('email') email: string, 
     @ConnectedSocket() client: Socket,
-    ){ return this.messagesService.identify(name,/* email,*/ client.id); }
+    ){ return this.messagesService.identify(name, client.id); }
 
 
 

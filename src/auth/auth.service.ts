@@ -39,10 +39,10 @@ export class AuthService {
     const user = await this.userService.getUserByEmail(userDto.email);
     //userDto.password = encryptPassword(userDto.password);  // YMP
     //const passwordEquals = (user.password === userDto.password);
-
     if (user && (user.password === encryptPassword(userDto.password))) {
         return user;
     }
+    //return user;
     throw new UnauthorizedException({message: 'Некорректный email или пароль'})
 }
 

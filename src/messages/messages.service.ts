@@ -8,6 +8,10 @@ export class MessagesService {
   messages: Message[] = [{name: 'Yura',/* email: '',*/ text: 'Yes'}];
   clientToUser = {};
 
+  // auth(createMessageDto: CreateMessageDto) {
+  //   //this.clientToUser[clientId] = name;
+  //   return Object.values(this.clientToUser);
+  // }
 
   identify(name: string,/* email: string,*/ clientId: string) {
     this.clientToUser[clientId] = name;
