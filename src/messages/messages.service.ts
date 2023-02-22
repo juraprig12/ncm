@@ -23,7 +23,7 @@ export class MessagesService {
         {
           global.masSocketClients.push(passwordClientSocket);
         }    
-    console.log(ansverClientSocket);
+    //console.log(ansverClientSocket);
     return tokenClientSocket;
   }
 

@@ -3,10 +3,12 @@ import { CreateSourceDto } from './dto/create-source.dto';
 import { UpdateSourceDto } from './dto/update-source.dto';
 import { SourceEntity } from './entities/source.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Index, Repository } from 'typeorm';
 import { UserEntity } from '../user/entities/user.entity';
-import { ConnectedSocket ,WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer } from '@nestjs/websockets';
+import { WebSocketServer } from '@nestjs/websockets';
 import {Server, Socket} from 'socket.io';
+import { MessagesController } from 'src/messages/messages.controller';
+//import { elementAt } from 'rxjs';
 
 @Injectable()
 export class SourceService {
@@ -16,28 +18,40 @@ export class SourceService {
     private repositorySource: Repository<SourceEntity>,
     @InjectRepository(UserEntity)
     private repositoryUser: Repository<UserEntity>,
-    //server: Server    
     ) {}
 
-    @WebSocketServer()
-    server: Server;
+    @WebSocketServer() server: Server;
   
   async create(createSourceDto: CreateSourceDto) {
-    //return this.repository.save(createSourceDto);
-    //return 'This action adds a new source';
+    
     await this.repositorySource.save(createSourceDto);
-
+    
     let masSubscripter = [];
+    let masSubscripterPassword = [];
     const news_on = '1';
-
+    
     masSubscripter = await this.repositoryUser.findBy({news_on});
+    
+    masSubscripter.forEach( (element) => {
+      masSubscripterPassword.push(element.password);
+    })
 
-    const message = {"Комментарий: ": "появилась новая статься"/*, createSourceDto*/};
-    //this.server.emit('authMessage', message);  // ??????????????????????????????????????????????????????????????
+    const message = `появилась новая статься: "${createSourceDto.comment}"`;
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.table(global.masSocketClients);
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    console.table(masSubscripterPassword);
+
+    global.masSocketClients.forEach( (element_socket) => {
+      masSubscripterPassword.forEach( (element_subscripter) => {
+        if (element_socket === element_subscripter) {
+          console.log("=====================================");
+          console.log(element_socket);
+          //this.server.serveClient.emit('authMessage', message);  // ?????????????????????????????
+        }
+      })
+    })
     return message;
-
-    //return broadcastMessage(message /*, masSubscripter, masSocketToken*/);
-    //return 'This action adds a new source';
   }
 
   findAll() {
