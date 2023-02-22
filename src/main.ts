@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 require('dotenv').config();
 
+global.masSocketClients = [];
 
 async function httpServer() {
   const PORT = process.env.PORT || 7000;

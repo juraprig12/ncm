@@ -29,22 +29,16 @@ export class MessagesController implements OnModuleInit {       //  YMP
 
   onModuleInit() {                                         // YMP
     this.server.on('connection', (socket) => {              // YMP
-      //socket.id = Date.now(); 
-      //console.log(socket.id);
-      socket.data = {password: "секретный и лысый", email: "непейлысый@gmail.com"};                             // YMP
-      console.log(`Connected, id socket = "${socket.id}"`);                            // YMP
-      //console.log(`socket.data = "${socket.data}"`);                            // YMP
+    socket.data = {password: "секретный и лысый", email: "непейлысый@gmail.com"};                             // YMP
+    console.log(`Connected, id socket = "${socket.id}"`);                            // YMP
     });                                                   // YMP
   }                                                         // YMP
 
   @SubscribeMessage('authMessage')
   async auth(@MessageBody() createMessageDto: CreateUserDto) {
-
-    const tokenClientSocket = (await this.authService.login(createMessageDto)).token;
-    console.log(tokenClientSocket);
+    const tokenClientSocket = await this.messagesService.auth(createMessageDto);
     this.server.emit('authMessage', tokenClientSocket);
     return tokenClientSocket;
-    //this.server.emit('message', message);
   }
 
   @SubscribeMessage('createMessage')

@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
 
   getHello(): string {
+    console.log(global.masSocketClients);
     return 'Без строки запроса, без тела запроса!';
   }
 

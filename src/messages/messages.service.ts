@@ -2,18 +2,32 @@ import { Injectable } from '@nestjs/common';
 import { CreateMessageDto } from './dto/create-message.dto';
 //import { UpdateMessageDto } from './dto/update-message.dto';
 import { Message } from './entities/message.entity';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class MessagesService {
-  messages: Message[] = [{name: 'Yura',/* email: '',*/ text: 'Yes'}];
+  constructor(
+    private authService: AuthService,
+  ) {}
+
+  messages: Message[] = [{name: 'Yura', text: 'Yes'}];
   clientToUser = {};
+  //masSocketClients = [];
 
-  // auth(createMessageDto: CreateMessageDto) {
-  //   //this.clientToUser[clientId] = name;
-  //   return Object.values(this.clientToUser);
-  // }
+  async auth(createMessageDto: CreateUserDto) {
+    const ansverClientSocket = (await this.authService.login(createMessageDto));
+    const tokenClientSocket = (await ansverClientSocket.token).token;
+    const passwordClientSocket = ansverClientSocket.password;
+      if (!global.masSocketClients.includes(passwordClientSocket)) 
+        {
+          global.masSocketClients.push(passwordClientSocket);
+        }    
+    console.log(ansverClientSocket);
+    return tokenClientSocket;
+  }
 
-  identify(name: string,/* email: string,*/ clientId: string) {
+  identify(name: string, clientId: string) {
     this.clientToUser[clientId] = name;
     return Object.values(this.clientToUser);
   }

@@ -7,7 +7,7 @@ import { UserModule } from 'src/user/user.module';
 
 @Module({
   providers: [MessagesController, MessagesService, AuthService],
-  controllers: [/*MessagesGateway*/],
+  controllers: [/*MessagesController*/],
   imports: [
     UserModule,
     JwtModule.register({
@@ -17,7 +17,7 @@ import { UserModule } from 'src/user/user.module';
     ],
   exports: [
     AuthService,
-    JwtModule
+    JwtModule,
     ] 
 })
 export class MessagesModule {}
