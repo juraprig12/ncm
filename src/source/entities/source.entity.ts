@@ -9,8 +9,8 @@ export class SourceEntity {
     @Column() link: string;
     @Column() usersId: number;
     @ManyToOne(() => UserEntity, (users: UserEntity) => users.id, {
-     onUpdate: 'CASCADE',
-     onDelete: 'CASCADE',
-   })
-   users: UserEntity
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+})
+    users: UserEntity
 }

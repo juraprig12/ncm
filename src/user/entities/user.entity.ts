@@ -10,6 +10,7 @@ export class UserEntity {
   @Column({nullable: true}) phone: string;
   @IsEmail()       // Это дополинтельная валидация на поле email, что оно таки email.
   @Column({nullable: true}) email: string;
+  @Column({nullable: true}) news_on: string;
 };
 
 //export class User {}

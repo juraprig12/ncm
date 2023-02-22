@@ -7,7 +7,7 @@ import { UpdateSourceDto } from './dto/update-source.dto';
 export class SourceController {
   constructor(private readonly sourceService: SourceService) {}
 
-  @Post()
+  @Post('/insert')
   create(@Body() createSourceDto: CreateSourceDto) {
     return this.sourceService.create(createSourceDto);
   }
