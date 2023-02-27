@@ -4,7 +4,7 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import {Server, Socket} from 'socket.io';
 import { Controller, OnModuleInit } from '@nestjs/common';            // YMP
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { AuthService } from 'src/auth/auth.service';
+//import { AuthService } from 'src/auth/auth.service';
 
 @WebSocketGateway(
   /*3001,*/{ 
@@ -14,30 +14,34 @@ import { AuthService } from 'src/auth/auth.service';
     //transports: ['websocket']
   },
 })
-//{ transports: ['websocket'] })   // YMP
 
 @Controller('')
 export class MessagesController implements OnModuleInit {       //  YMP
 
   constructor(
     private readonly messagesService: MessagesService,
-    private authService: AuthService
+    //private authService: AuthService
             ) {}
 
   @WebSocketServer()
   server: Server;
 
-  onModuleInit() {                                         // YMP
+  onModuleInit() {                                          // YMP
     this.server.on('connection', (socket) => {              // YMP
-    socket.data = {password: "секретный и лысый", email: "непейлысый@gmail.com"};                             // YMP
-    console.log(`Connected, id socket = "${socket.id}"`);                            // YMP
-    });                                                   // YMP
+    //socket.data = {password: "секретный и лысый", email: "непейлысый@gmail.com"};      // YMP
+    console.log(`Connected, socket.id = "${socket.id}"`);   // YMP
+    console.log(`Connected, socket = "${{socket}}"`);       // YMP
+  });                                                       // YMP
   }                                                         // YMP
 
   @SubscribeMessage('authMessage')
-  async auth(@MessageBody() createMessageDto: CreateUserDto) {
-    const tokenClientSocket = await this.messagesService.auth(createMessageDto);
-    this.server.emit('authMessage', tokenClientSocket);
+  async auth(@MessageBody() createMessageDto: CreateUserDto,
+             @ConnectedSocket() socket: Socket) 
+  {
+    console.log(`Автоизация, client = "${socket}"`);                            // YMP
+    console.log(`Автоизация, client.id = "${socket.id}"`);                            // YMP
+    const tokenClientSocket = await this.messagesService.auth(socket.id, createMessageDto);
+    this.server.emit('tokenMessage', tokenClientSocket);
     return tokenClientSocket;
   }
 

@@ -15,14 +15,19 @@ export class MessagesService {
   clientToUser = {};
   //masSocketClients = [];
 
-  async auth(createMessageDto: CreateUserDto) {
-    const ansverClientSocket = (await this.authService.login(createMessageDto));
-    const tokenClientSocket = (await ansverClientSocket.token).token;
-    const passwordClientSocket = ansverClientSocket.password;
-      if (!global.masSocketClients.includes(passwordClientSocket)) 
-        {
-          global.masSocketClients.push(passwordClientSocket);
-        }    
+  async auth(clientId, createMessageDto: CreateUserDto) {
+    const tokenClientSocket = (await this.authService.login(createMessageDto));
+    //const tokenClientSocket = (await ansverClientSocket.token).token;
+    //const passwordClientSocket = ansverClientSocket.password;
+
+    // const ansverClientSocket = (await this.authService.login(createMessageDto));
+    // const tokenClientSocket = (await ansverClientSocket.token).token;
+    // const passwordClientSocket = ansverClientSocket.password;
+    
+      // if (!global.masSocketClients.includes(passwordClientSocket)) 
+      //   {
+      //     global.masSocketClients.push(passwordClientSocket);
+      //   }    
     //console.log(ansverClientSocket);
     return tokenClientSocket;
   }

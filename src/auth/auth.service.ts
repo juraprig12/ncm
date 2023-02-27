@@ -17,8 +17,9 @@ export class AuthService {
         const user = await this.validateUser(userDto)
         const tockenUser = this.generateToken(user)
         const passwordUser = user.password
-        //return this.generateToken(user)
-        return {"token": tockenUser, "password": passwordUser}
+        return tockenUser
+        //return (await tockenUser).token
+        //return {"token": tockenUser, "password": passwordUser}
     }
 
     async registration(userDto: CreateUserDto) {
@@ -34,7 +35,10 @@ export class AuthService {
     private async generateToken(user: UserEntity) {
     const payload = {email: user.email, id: user.id /*, roles: user.roles*/}
     return {
-        token: this.jwtService.sign(payload)
+        accesstoken: this.jwtService.sign(payload, {
+            secret: process.env.SECRET_KEY,
+            expiresIn: process.env.EXPIRE_JWT
+        })
     }
     }
 
