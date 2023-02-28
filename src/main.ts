@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 require('dotenv').config();
 
 global.masSocketClients = [];
+global.mapSocketClients = new Map();
 
 async function httpServer() {
   const PORT = process.env.PORT || 7000;

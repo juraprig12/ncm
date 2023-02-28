@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { SourceModule } from './source/source.module';
 import { AuthModule } from './auth/auth.module';
 import { MessagesModule } from './messages/messages.module';
+import { SocketModule } from './socket/socket.module';
 const crypto = require('crypto')
 //import { MessagesGateway } from './messages/messages.gateway';
 
@@ -22,6 +23,7 @@ export const encryptPassword = (stroka: string) => {
     SourceModule,
     AuthModule,
     MessagesModule,
+    SocketModule,
     ],
   controllers: [AppController],
   providers: [AppService],
