@@ -20,7 +20,7 @@ export class AuthController {
         return this.authService.registration(userDto);
     }
     
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)  // этот декоратор с параметром стратегии JwtAuthGuard обеспечивает доступ к роту по accessToken
     @Post('/test')
     test() {
         return true;
