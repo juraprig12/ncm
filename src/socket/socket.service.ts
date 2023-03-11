@@ -27,14 +27,15 @@ SocketServer.on('connection', (client) => {
         const newsOn = payloadToken.news_on
         console.log(clientSocketId) // John
         console.log(newsOn) // John
-        global.mapSocketClients.set(clientSocketId, newsOn);
+        global.mapNewsNotifications.set(clientSocketId, newsOn);
         broadcastMessage(`Клиент по сокету c id = ${client.id} подключился`);
     }) 
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export async function broadcastMessage(message) {
     SocketServer.clients.forEach(client => {
-        if (global.mapSocketClients.get(client.id) && global.mapSocketClients.get(client.id) === '1') {
+        if (global.mapNewsNotifications.get(client.id) && global.mapNewsNotifications.get(client.id) === '1') 
+        {
             client.send(message)
         }
     })

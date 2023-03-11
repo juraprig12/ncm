@@ -6,6 +6,8 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { Controller, OnModuleInit, UseGuards } from '@nestjs/common';            // YMP
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
+// Это заготовка соединения по сокетам с использованием пакета 'socket.io' и принципа подписки и клиента и сервера на события
+// В данном проекте практического применения не имеет.
 
 @WebSocketGateway(/*3001,*/{ 
   cors: { origin: ['http://localhost:3000'],        // YMP

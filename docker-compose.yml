@@ -1,14 +1,18 @@
-version: "3.8"
+version: '7.0'
 services:
   redis:
-    image: redis:7.0.7-alpine
     container_name: redis_db
-    restart: unless-stopped
+    image: redis:7.0.7-alpine
+    restart: always
+    environment:
+      - REDIS_USER=${TYPEORM_USERNAME}
+      - REDIS_PASSWORD=${TYPEORM_PASSWORD}
+      - REDIS_DATABASE=${REDIS_DATABASE}
     volumes:
-      - ./redis/data:/data
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+     - ./redis_db/data:/data
+     - ./redis_db/redis.conf:/usr/local/etc/redis/redis.conf#     
     ports:
-      - '6379:6379'
+      - ${REDIS_PORT}:${REDIS_PORT}
     command: redis-server
 
 
@@ -16,6 +20,20 @@ services:
 # docker-compose up --build   # Это строка выполнения при самом первом запуске "docker-compose.yaml"
 # А в контейнере из Docker-desktop в Терминале подключение к созданной в docker-compose БАЗЕ db_migration: 
 #                                                                            psql -U root -d db_migration
+
+
+# version: "3.8"
+# services:
+#   redis:
+#     image: redis:7.0.7-alpine
+#     container_name: redis_db
+#     restart: unless-stopped
+#     volumes:
+#       - ./redis_db/data:/data
+#       - ./redis_db/redis.conf:/usr/local/etc/redis/redis.conf
+#     ports:
+#       - '6379:6379'
+#     command: redis-server
 
 
 # version: '7.0'
@@ -29,8 +47,8 @@ services:
 #       - REDIS_PASSWORD=${TYPEORM_PASSWORD}
 #       - REDIS_DATABASE=${REDIS_DATABASE}
 #     #volumes:
-#     # - ./redis/data:/data
-#     # - ./redis/redis.conf:/usr/local/etc/redis/redis.conf#     
+#     # - ./redis_db/data:/data
+#     # - ./redis_db/redis.conf:/usr/local/etc/redis/redis.conf#     
 #     ports:
 #       - ${REDIS_PORT}:${REDIS_PORT}
 #     command: redis-server

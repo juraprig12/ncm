@@ -16,7 +16,7 @@ export class AuthService {
     async login(userDto: CreateUserDto) {
         const user = await this.validateUser(userDto)
         const tockenUser = this.generateToken(user)
-        const passwordUser = user.password
+        //const passwordUser = user.password
         return tockenUser
         //return (await tockenUser).token
         //return {"token": tockenUser, "password": passwordUser}

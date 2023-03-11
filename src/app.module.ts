@@ -8,8 +8,10 @@ import { SourceModule } from './source/source.module';
 import { AuthModule } from './auth/auth.module';
 import { MessagesModule } from './messages/messages.module';
 import { SocketModule } from './socket/socket.module';
+import { RedisModule } from '@nestjs-modules/ioredis';
 const crypto = require('crypto')
 //import { MessagesGateway } from './messages/messages.gateway';
+
 
 export const encryptPassword = (stroka: string) => {
   stroka = crypto.createHash('sha256', process.env.SECRET_KEY).update(stroka).digest('hex');
@@ -19,11 +21,19 @@ export const encryptPassword = (stroka: string) => {
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataSourceOptions),
+    RedisModule.forRootAsync({
+      useFactory: () => ({
+        config: { 
+          url: 'redis://localhost:6379',
+        },
+      }),
+    }),
     UserModule,
     SourceModule,
     AuthModule,
     MessagesModule,
     SocketModule,
+    RedisModule,
     ],
   controllers: [AppController],
   providers: [AppService],
