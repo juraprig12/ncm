@@ -3,25 +3,26 @@ import { AppService } from './app.service';
 import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
 //import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
+
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService,
-              @InjectRedis() private readonly redis: Redis,) {}
+              /*@InjectRedis() private readonly redis: Redis,*/) {}
 
-  @Get('/redis')
-  async getRedis(@Body() data: any) {
-    console.log(typeof data)
-    let redisKey = JSON.stringify(data) /*.password*/;
-    let redisData = redisKey;
-    let redisResult = await this.redis.get(redisKey);
-    if (redisResult) {
-      redisResult = JSON.parse(redisResult);
-      return redisResult;                            //return `В базе redis такие данные уже есть: ${redisData}`;
-    } else {
-      await this.redis.set(redisKey, redisData);     //redisData = await this.redis.get(redisKey);
-      return `Эти новые данные введены в базу redis: ${redisData}`;
-    }
-  
+  // @Get('/redis/test')
+  // async getRedis(@Body() data: any) {
+  //   console.log(typeof data)
+  //   let redisKey = JSON.stringify(data) /*.password*/;
+  //   let redisData = redisKey;
+  //   let redisResult = await this.redis.get(redisKey);
+  //   if (redisResult) {
+  //     redisResult = JSON.parse(redisResult);
+  //     return redisResult;                            //return `В базе redis такие данные уже есть: ${redisData}`;
+  //   } else {
+  //     await this.redis.set(redisKey, redisData);     //redisData = await this.redis.get(redisKey);
+  //     return `Эти новые данные введены в базу redis: ${redisData}`;
+  //   }
+
     // {
     //   "password1": "секретный и лысый", 
     //   "email": "непейлысый@gmail.com"
@@ -31,7 +32,7 @@ export class AppController {
   //await this.redis.set('key', 'Redis data!');
   //await this.redis.set('key', redisData);
   //redisData = await this.redis.get("key");
-  }
+  //}
 
   @Get() 
   //@HttpCode(204) 

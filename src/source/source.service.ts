@@ -6,6 +6,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Index, Repository } from 'typeorm';
 import { UserEntity } from '../user/entities/user.entity';
 import { broadcastMessage } from 'src/socket/socket.service';
+import { RedisController } from 'src/redis/redis.controller';
+import { IS_NUMBER } from 'class-validator';
 
 @Injectable()
 export class SourceService {
@@ -13,6 +15,7 @@ export class SourceService {
   constructor(
     @InjectRepository(SourceEntity)
     private repositorySource: Repository<SourceEntity>,
+    private redisController: RedisController,
     //@InjectRepository(UserEntity)
     //private repositoryUser: Repository<UserEntity>,
     //private server: MessagesController
@@ -21,8 +24,21 @@ export class SourceService {
     //@WebSocketServer() server: Server;
   
   async create(createSourceDto: CreateSourceDto) {
-    
+
+    let keyRedis = Object.assign({}, createSourceDto);              // КЛОНИРОВАНИЕ ОБЪЕКТА
+    let redisData = await this.redisController.getRedis(keyRedis);  // YMP
+    if (redisData) {
+      return redisData  
+    }
+
     await this.repositorySource.save(createSourceDto);
+
+    redisData = await this.redisController.setRedis(keyRedis, createSourceDto);  // YMP
+    // if (redisData) {
+    //   console.log(redisData);                                                    // YMP
+    //   return redisData  
+    // }
+
     const message = `появилась новая статься: "${createSourceDto.comment}"`;
     broadcastMessage(message);
     return message;

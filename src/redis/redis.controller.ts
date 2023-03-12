@@ -1,34 +1,61 @@
-// import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-// import { RedisService } from './redis.service';
-// import { CreateRediDto } from './dto/create-redi.dto';
-// import { UpdateRediDto } from './dto/update-redi.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
+import { RedisService } from './redis.service';
+//import { CreateRediDto } from './dto/create-redi.dto';
+//import { UpdateRediDto } from './dto/update-redi.dto';
 
-// @Controller('redis')
-// export class RedisController {
-//   constructor(private readonly redisService: RedisService) {}
+@Controller('redis')
+export class RedisController {
+  constructor(/*private readonly redisService: RedisService,*/
+              @InjectRedis() private readonly redis: Redis,) {}
 
-//   @Post()
-//   create(@Body() createRediDto: CreateRediDto) {
-//     return this.redisService.create(createRediDto);
-//   }
+  @Get('/get')
+  async getRedis(@Body() inputRedisKey: any) {
+    let redisKey = JSON.stringify(inputRedisKey);
+    let redisResult = await this.redis.get(redisKey);
+    if (redisResult) {
+      return `В базе redis такие данные уже есть: ${redisResult}`;
+    } //else { return `В базе redis нет таких данных`; }
+  }
 
-//   @Get()
-//   findAll() {
-//     return this.redisService.findAll();
-//   }
+  @Post('/set')
+  async setRedis(@Body() inputRedisKey: any, inputRedisData: any) {
+    let redisKey = JSON.stringify(inputRedisKey);
+    let redisData = JSON.stringify(inputRedisData);
+    let redisResult = await this.redis.get(redisKey);
+    if (redisResult) { 
+      return `В базе redis такие данные уже есть: ${redisResult}`; 
+    } 
+      else 
+      { 
+        await this.redis.set(redisKey, redisData);
+        return `Эти новые данные введены в базу postgreSQL и redis: ${redisData}` 
+      } 
+  }
 
-//   @Get(':id')
-//   findOne(@Param('id') id: string) {
-//     return this.redisService.findOne(+id);
-//   }
 
-//   @Patch(':id')
-//   update(@Param('id') id: string, @Body() updateRediDto: UpdateRediDto) {
-//     return this.redisService.update(+id, updateRediDto);
-//   }
+  // @Post()
+  // create(@Body() createRediDto: CreateRediDto) {
+  //   return this.redisService.create(createRediDto);
+  // }
 
-//   @Delete(':id')
-//   remove(@Param('id') id: string) {
-//     return this.redisService.remove(+id);
-//   }
-// }
+  // @Get()
+  // findAll() {
+  //   return this.redisService.findAll();
+  // }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.redisService.findOne(+id);
+  // }
+
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateRediDto: UpdateRediDto) {
+  //   return this.redisService.update(+id, updateRediDto);
+  // }
+
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.redisService.remove(+id);
+  // }
+}
